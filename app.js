@@ -1,13 +1,16 @@
 const express = require('express')
+const hbs = require('hbs');
+
 const app = express()
+const port = 3000
 
-
-// TODO: require('hbs')
+// HANDLEBARS
 app.set('view engine', 'hbs')
+hbs.registerPartials(__dirname + '/views/partials')
 
 
 //Servir contenido estatico
-app.use(express.static('public'))
+app.use(express.static('public')) 
 
 app.get('/', (req, res) => {
     res.render('home', {
@@ -17,17 +20,23 @@ app.get('/', (req, res) => {
   })
 
 app.get('/generic', (req, res) => {
-    res.sendFile(__dirname + '/public/generic.html')
+    res.render('generic', {
+        nombre: 'Julio Donado',
+        titulo: 'Curso de Node'
+    }) 
 })
 
 app.get('/elements', (req, res) => {
-    res.sendFile(__dirname + '/public/elements.html')
+    res.render('elements', {
+        nombre: 'Julio Donado',
+        titulo: 'Curso de Node'
+    }) 
 })
 
 app.get('*', (req, res) => {
     res.sendFile(__dirname + '/public/404.html')
 })
 
-app.listen(3000, () => {
-    console.log('Escuchando servidor en http://localhost:3000/')
+app.listen(port, () => {
+    console.log(`Escuchando servidor en http://localhost:${port}/`)
 })
